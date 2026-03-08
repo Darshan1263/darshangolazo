@@ -1,0 +1,50 @@
+{
+  "HomePage": {
+    "title": "Welcome to Golazo"
+  },
+  "LoginPage": {
+    "title": "Welcome Back",
+    "email": "Email",
+    "password": "Password",
+    "button": "Log In",
+    "footerText": "Don't have an account?",
+    "footerLink": "Sign Up"
+  },
+  "RegisterPage": {
+    "title": "Join the Community",
+    "name": "Username",
+    "email": "Email",
+    "password": "Password",
+    "button": "Create Account",
+    "footerText": "Already have an account?",
+    "footerLink": "Login"
+  },
+  "CountryPage": {
+    "title": "Choose Your Country",
+    "subtitle": "Select a country to explore its football leagues.",
+    "cta": "Continue"
+  },
+  "LeaguePage": {
+    "title": "Choose Your League",
+    "subtitle": "Select a league to continue.",
+    "cta": "Continue"
+  },
+  "ClubPage": {
+    "title": "Choose Your Club",
+    "subtitle": "Select the club you support to personalise your experience.",
+    "cta": "Choose Club"
+  },
+  "FanTypePage": {
+    "title": "What kind of fan are you?",
+    "subtitle": "This helps us personalise your experience.",
+    "hardcoreTitle": "Hardcore Fan",
+    "hardcoreDescription": "Deep tactics, transfer news, and match analysis. You live and breathe football.",
+    "casualTitle": "Casual Follower",
+    "casualDescription": "Highlights, key updates, and weekend matches. Football fits your lifestyle.",
+    "newTitle": "New Supporter",
+    "newDescription": "Learning the game, discovering clubs, and finding your tribe. Welcome aboard.",
+    "emotionalTitle": "Emotional Fan",
+    "emotionalDescription": "Rivalries, chants, culture, and the raw passion of the beautiful game.",
+    "button": "Enter FanZone"
+  }
+}
