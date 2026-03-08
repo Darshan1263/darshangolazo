@@ -7,7 +7,11 @@ const countries = [
   {name: 'Germany', slug: 'germany'},
   {name: 'Italy', slug: 'italy'},
   {name: 'France', slug: 'france'},
-  {name: 'Portugal', slug: 'portugal'}
+  {name: 'Portugal', slug: 'portugal'},
+  {name: 'USA / Canada', slug: 'usa-canada'},
+  {name: 'Saudi Arabia', slug: 'saudi-arabia'},
+  {name: 'India', slug: 'india'},
+  {name: 'Belgium', slug: 'belgium'}
 ];
 
 export default function ChooseCountryPage() {
@@ -55,7 +59,7 @@ export default function ChooseCountryPage() {
                       {country.name}
                     </h2>
                     <span className="text-sm text-white/20">
-                      0{index + 1}
+                      {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
                 </div>

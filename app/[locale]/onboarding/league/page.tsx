@@ -1,67 +1,33 @@
 import {Link} from '@/i18n/navigation';
 import {getTranslations} from 'next-intl/server';
+import {footballData} from '@/app/data/football';
 
+// This page receives the selected country from the URL
 type Props = {
   searchParams: Promise<{country?: string}>;
 };
 
-const leagueMap: Record<
-  string,
-  {name: string; slug: string; country: string}[]
-> = {
-  england: [
-    {name: 'Premier League', slug: 'premier-league', country: 'England'},
-    {name: 'Championship', slug: 'championship', country: 'England'},
-    {name: 'FA Cup', slug: 'fa-cup', country: 'England'},
-    {name: 'Carabao Cup', slug: 'carabao-cup', country: 'England'}
-  ],
-  spain: [
-    {name: 'La Liga', slug: 'la-liga', country: 'Spain'},
-    {name: 'Segunda División', slug: 'segunda-division', country: 'Spain'},
-    {name: 'Copa del Rey', slug: 'copa-del-rey', country: 'Spain'}
-  ],
-  germany: [
-    {name: 'Bundesliga', slug: 'bundesliga', country: 'Germany'},
-    {name: '2. Bundesliga', slug: '2-bundesliga', country: 'Germany'},
-    {name: 'DFB-Pokal', slug: 'dfb-pokal', country: 'Germany'}
-  ],
-  italy: [
-    {name: 'Serie A', slug: 'serie-a', country: 'Italy'},
-    {name: 'Serie B', slug: 'serie-b', country: 'Italy'},
-    {name: 'Coppa Italia', slug: 'coppa-italia', country: 'Italy'}
-  ],
-  france: [
-    {name: 'Ligue 1', slug: 'ligue-1', country: 'France'},
-    {name: 'Ligue 2', slug: 'ligue-2', country: 'France'},
-    {name: 'Coupe de France', slug: 'coupe-de-france', country: 'France'}
-  ],
-  portugal: [
-    {name: 'Liga Portugal', slug: 'liga-portugal', country: 'Portugal'},
-    {name: 'Liga Portugal 2', slug: 'liga-portugal-2', country: 'Portugal'},
-    {name: 'Taça de Portugal', slug: 'taca-de-portugal', country: 'Portugal'}
-  ]
-};
-
-const countryDisplayMap: Record<string, string> = {
-  england: 'England',
-  spain: 'Spain',
-  germany: 'Germany',
-  italy: 'Italy',
-  france: 'France',
-  portugal: 'Portugal'
-};
-
 export default async function ChooseLeaguePage({searchParams}: Props) {
- const t = await getTranslations('LeaguePage');
+  const t = await getTranslations('LeaguePage');
   const params = await searchParams;
 
+  // Country slug passed from the country page
   const selectedCountry = params.country ?? 'england';
-  const leagues = leagueMap[selectedCountry] ?? [];
-  const selectedCountryLabel =
-    countryDisplayMap[selectedCountry] ?? 'Selected Country';
+
+  // Find the selected country inside the central football data
+  const countryData = footballData.find(
+    (country) => country.slug === selectedCountry
+  );
+
+  // Use the leagues from that country
+  const leagues = countryData?.leagues ?? [];
+
+  // Nice label for the page header
+  const selectedCountryLabel = countryData?.country ?? 'Selected Country';
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-black px-5 py-10 text-white">
+      {/* Background grid */}
       <div className="absolute inset-0 opacity-[0.05]">
         <div
           className="h-full w-full"
@@ -75,21 +41,26 @@ export default async function ChooseLeaguePage({searchParams}: Props) {
         />
       </div>
 
+      {/* Soft yellow glow */}
       <div className="absolute left-1/2 top-[34%] h-[220px] w-[220px] -translate-x-1/2 rounded-full bg-[#FACC15]/[0.04] blur-3xl" />
 
       <div className="relative mx-auto max-w-5xl">
+        {/* Page heading */}
         <div className="mb-10 text-center">
           <p className="mb-3 text-sm uppercase tracking-[0.25em] text-white/40">
             {selectedCountryLabel}
           </p>
+
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
             {t('title')}
           </h1>
+
           <p className="mx-auto mt-3 max-w-xl text-sm text-white/55">
             {t('subtitle')}
           </p>
         </div>
 
+        {/* League cards */}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {leagues.map((league, index) => (
             <Link
@@ -100,23 +71,31 @@ export default async function ChooseLeaguePage({searchParams}: Props) {
               <div className="flex min-h-[135px] flex-col justify-between">
                 <div>
                   <div className="mb-6 h-1 w-12 rounded-full bg-[#FACC15] transition-all duration-300 group-hover:w-16" />
+
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="mb-2 text-sm text-white/45">
-                        {league.country}
+                        {countryData?.country}
                       </p>
+
                       <h2 className="text-2xl font-semibold tracking-tight text-white">
                         {league.name}
                       </h2>
+
+                      <p className="mt-2 text-xs text-white/35">
+                        {league.teamCount} teams
+                      </p>
                     </div>
+
                     <span className="text-sm text-white/20">
-                      0{index + 1}
+                      {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-white/45">{t('cta')}</p>
+
                   <span className="text-base text-white/30 transition duration-300 group-hover:translate-x-1 group-hover:text-white/70">
                     →
                   </span>
@@ -126,6 +105,7 @@ export default async function ChooseLeaguePage({searchParams}: Props) {
           ))}
         </div>
 
+        {/* Empty state */}
         {leagues.length === 0 && (
           <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center text-white/55">
             No leagues found for this country yet.
